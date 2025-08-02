@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ktlint)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -52,11 +53,16 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    // Kotlin Serialization
+    implementation(libs.kotlin.serialization.json)
     // Ktor
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.android)
     implementation(libs.ktor.client.okhttp)
-    //Koin
+    implementation(libs.ktor.client.logging)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
+    // Koin
     implementation(project.dependencies.platform(libs.koin.bom))
     implementation(libs.koin.core)
     implementation(libs.koin.android)
