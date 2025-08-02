@@ -12,11 +12,13 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-fun createHttpClientEngine(): HttpClientEngine = AndroidClientEngine(
-    config = AndroidEngineConfig().apply {
-        connectTimeout = 20_000
-    },
-)
+fun createHttpClientEngine(): HttpClientEngine =
+    AndroidClientEngine(
+        config =
+            AndroidEngineConfig().apply {
+                connectTimeout = 20_000
+            },
+    )
 
 fun createHttpClient(engine: HttpClientEngine): HttpClient =
     HttpClient(engine) {
