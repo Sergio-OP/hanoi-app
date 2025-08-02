@@ -4,5 +4,5 @@ import com.sosorio.hanoiapp.domain.entities.Movement
 import kotlinx.coroutines.flow.Flow
 
 interface MovementsRepository {
-    suspend fun observeMovements(numberOfDisks: Int): Flow<Movement>
+    suspend fun observeMovements(numberOfDisks: Int): Flow<Result<Movement>>
 }
