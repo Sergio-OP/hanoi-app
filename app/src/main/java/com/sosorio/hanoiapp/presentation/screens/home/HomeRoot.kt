@@ -11,5 +11,6 @@ fun HomeRoot() {
 
     HomeScreen(
         uiState = uiState.value,
+        handleIntent = viewModel::handleIntent,
     )
 }
