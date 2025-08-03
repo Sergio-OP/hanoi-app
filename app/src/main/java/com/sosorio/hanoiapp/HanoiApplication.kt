@@ -2,6 +2,7 @@ package com.sosorio.hanoiapp
 
 import android.app.Application
 import com.sosorio.hanoiapp.di.appModule
+import com.sosorio.hanoiapp.di.dispatcherModule
 import com.sosorio.hanoiapp.di.networkModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -14,7 +15,7 @@ class HanoiApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@HanoiApplication)
-            modules(networkModule, appModule)
+            modules(networkModule, appModule, dispatcherModule)
         }
     }
 }

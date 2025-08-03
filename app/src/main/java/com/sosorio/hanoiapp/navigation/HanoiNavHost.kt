@@ -1,12 +1,11 @@
 package com.sosorio.hanoiapp.navigation
 
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.sosorio.hanoiapp.presentation.HomeRoot
 
 @Composable
 fun HanoiNavHost(modifier: Modifier = Modifier) {
@@ -18,7 +17,7 @@ fun HanoiNavHost(modifier: Modifier = Modifier) {
         modifier = modifier,
     ) {
         composable<HanoiScreen.Home> {
-            Text(text = "Home", color = Color.White)
+            HomeRoot()
         }
     }
 }
