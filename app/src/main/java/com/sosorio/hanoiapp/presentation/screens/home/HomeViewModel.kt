@@ -16,7 +16,6 @@ class HomeViewModel(
     private val observeMovementsUseCase: ObserveMovementsUseCase,
     private val dispatchers: CoroutineDispatcher = Dispatchers.IO,
 ) : ViewModel() {
-
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()
 
