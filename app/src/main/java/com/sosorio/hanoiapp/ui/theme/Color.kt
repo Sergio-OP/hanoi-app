@@ -2,10 +2,12 @@ package com.sosorio.hanoiapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
+val Pink = Color(0xFFB9375D)
+val Melon = Color(0xFFD25D5D)
+val LightMelon = Color(0xFFE7D3D3)
+val LightGray = Color(0xFFEEEEEE)
 
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val DarkPink = Color(0xFF8A2A47)
+val DarkMelon = Color(0xFF993E3E)
+val DarkLightMelon = Color(0xFF6E5050)
+val DarkGray = Color(0xFF2A2A2A)
