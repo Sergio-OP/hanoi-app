@@ -2,9 +2,9 @@ package com.sosorio.hanoiapp.presentation.screens.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sosorio.hanoiapp.domain.entities.HanoiGame
 import com.sosorio.hanoiapp.domain.useCases.ObserveMovementsUseCase
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,22 +14,59 @@ import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val observeMovementsUseCase: ObserveMovementsUseCase,
-    private val dispatchers: CoroutineDispatcher = Dispatchers.IO,
+    private val dispatchers: CoroutineDispatcher,
 ) : ViewModel() {
+    private lateinit var game: HanoiGame
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()
 
     init {
-        observeMovements(10)
+        startGame()
     }
+
+    fun handleIntent(intent: HomeIntent) {
+        when (intent) {
+            HomeIntent.StartGame -> observeMovements(_uiState.value.numberOfDisks)
+            HomeIntent.RefreshGame -> startGame()
+            is HomeIntent.ConfigureAlgorithm -> configureAlgorithm(intent.numberOfDisks, intent.moveAnimationTimeMs)
+        }
+    }
+
+    private fun configureAlgorithm(
+        numberOfDisks: Int,
+        moveAnimationTimeMs: Long,
+    ) {
+        if (numberOfDisks > 0) {
+            _uiState.update { it.copy(numberOfDisks = numberOfDisks) }
+        }
+        if (moveAnimationTimeMs > 0) {
+            _uiState.update { it.copy(moveAnimationTimeMs = moveAnimationTimeMs) }
+        }
+    }
+
+    private fun startGame() {
+        game = HanoiGame(numberOfDisks = _uiState.value.numberOfDisks)
+        updateUiTowers()
+    }
+
+    private fun moveDisk(
+        from: Int,
+        to: Int,
+    ) {
+        game.moveDisk(from, to)
+        updateUiTowers()
+    }
+
+    private fun updateUiTowers() = _uiState.update { it.copy(towers = game.towers.map { ArrayDeque(it) }) }
 
     private fun observeMovements(numberOfDisks: Int) =
         viewModelScope.launch(dispatchers) {
             observeMovementsUseCase(numberOfDisks).collect { movementResult ->
                 movementResult
                     .onSuccess { movement ->
-                        _uiState.update { it.copy(movement = movement) }
-                        delay(200L)
+                        _uiState.update { it.copy(lastMovement = movement) }
+                        moveDisk(movement.start - 1, movement.end - 1)
+                        delay(_uiState.value.moveAnimationTimeMs)
                     }.onFailure { error ->
                         _uiState.update { it.copy(error = error.message) }
                         this.cancel()
