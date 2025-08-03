@@ -5,7 +5,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.sosorio.hanoiapp.presentation.HomeRoot
+import com.sosorio.hanoiapp.presentation.screens.home.HomeRoot
 
 @Composable
 fun HanoiNavHost(modifier: Modifier = Modifier) {

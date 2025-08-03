@@ -1,4 +1,4 @@
-package com.sosorio.hanoiapp.presentation
+package com.sosorio.hanoiapp.presentation.screens.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

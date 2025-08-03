@@ -1,4 +1,4 @@
-package com.sosorio.hanoiapp.presentation
+package com.sosorio.hanoiapp.presentation.screens.home
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState

@@ -5,7 +5,7 @@ import com.sosorio.hanoiapp.data.repository.MovementsRepositoryImpl
 import com.sosorio.hanoiapp.domain.datasource.MovementsDatasource
 import com.sosorio.hanoiapp.domain.repository.MovementsRepository
 import com.sosorio.hanoiapp.domain.useCases.ObserveMovementsUseCase
-import com.sosorio.hanoiapp.presentation.HomeViewModel
+import com.sosorio.hanoiapp.presentation.screens.home.HomeViewModel
 import org.koin.core.module.dsl.singleOf
 import org.koin.core.module.dsl.viewModelOf
 import org.koin.dsl.bind

@@ -1,4 +1,4 @@
-package com.sosorio.hanoiapp.presentation
+package com.sosorio.hanoiapp.presentation.screens.home
 
 import com.sosorio.hanoiapp.domain.entities.Movement
 
