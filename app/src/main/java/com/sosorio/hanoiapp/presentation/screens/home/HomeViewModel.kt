@@ -27,23 +27,20 @@ class HomeViewModel(
 
     fun handleIntent(intent: HomeIntent) {
         when (intent) {
-            HomeIntent.StartGame -> observeMovements(_uiState.value.numberOfDisks)
+            HomeIntent.StartGame -> observeMovements(_uiState.value.configuration.numberOfDisks)
             HomeIntent.RefreshGame -> startGame()
             is HomeIntent.ConfigureAlgorithm -> configureAlgorithm(intent.configuration)
         }
     }
 
     private fun configureAlgorithm(configuration: AlgorithmConfiguration) {
-        if (configuration.numberOfDisks > 0) {
-            _uiState.update { it.copy(numberOfDisks = configuration.numberOfDisks) }
-        }
-        if (configuration.movementTimeInMs > 0) {
-            _uiState.update { it.copy(moveAnimationTimeMs = configuration.movementTimeInMs) }
+        if (configuration.numberOfDisks > 0 && configuration.movementTimeInMs > 0) {
+            _uiState.update { it.copy(configuration = configuration) }
         }
     }
 
     private fun startGame() {
-        game = HanoiGame(numberOfDisks = _uiState.value.numberOfDisks)
+        game = HanoiGame(numberOfDisks = _uiState.value.configuration.numberOfDisks)
         updateUiTowers()
     }
 
@@ -64,7 +61,7 @@ class HomeViewModel(
                     .onSuccess { movement ->
                         _uiState.update { it.copy(lastMovement = movement) }
                         moveDisk(movement.start - 1, movement.end - 1)
-                        delay(_uiState.value.moveAnimationTimeMs)
+                        delay(_uiState.value.configuration.movementTimeInMs)
                     }.onFailure { error ->
                         _uiState.update { it.copy(error = error.message) }
                         this.cancel()
