@@ -2,8 +2,11 @@ package com.sosorio.hanoiapp.presentation.components.button
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Pause
@@ -11,7 +14,6 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Restore
 import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -62,18 +64,19 @@ fun ControlButton(
                     width = 1.dp,
                     color = borderColor,
                     shape = shape,
-                ).background(backgroundColor),
+                ).background(backgroundColor)
+                .clickable(onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
-        IconButton(
-            onClick = onClick,
-        ) {
-            Icon(
-                imageVector = type.icon,
-                contentDescription = stringResource(type.contentDescriptionRes),
-                tint = contentColor,
-            )
-        }
+        Icon(
+            imageVector = type.icon,
+            contentDescription = stringResource(type.contentDescriptionRes),
+            tint = contentColor,
+            modifier =
+                Modifier
+                    .padding(12.dp)
+                    .size(24.dp),
+        )
     }
 }
 
