@@ -1,4 +1,4 @@
-package com.sosorio.hanoiapp.presentation.components
+package com.sosorio.hanoiapp.presentation.components.appBar
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons

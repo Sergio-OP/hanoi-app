@@ -1,4 +1,4 @@
-package com.sosorio.hanoiapp.presentation.components
+package com.sosorio.hanoiapp.presentation.components.tower
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border

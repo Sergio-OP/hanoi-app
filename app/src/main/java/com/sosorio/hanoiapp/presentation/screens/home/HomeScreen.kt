@@ -15,9 +15,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.sosorio.hanoiapp.R
 import com.sosorio.hanoiapp.domain.entities.HanoiGame
-import com.sosorio.hanoiapp.presentation.components.ControlButtons
-import com.sosorio.hanoiapp.presentation.components.HanoiAppBar
-import com.sosorio.hanoiapp.presentation.components.HanoiTowers
+import com.sosorio.hanoiapp.presentation.components.button.ControlButtons
+import com.sosorio.hanoiapp.presentation.components.appBar.HanoiAppBar
+import com.sosorio.hanoiapp.presentation.components.tower.HanoiTowers
 import com.sosorio.hanoiapp.ui.theme.HanoiAppTheme
 
 @Composable

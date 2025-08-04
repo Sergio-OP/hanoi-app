@@ -27,9 +27,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.sosorio.hanoiapp.R
-import com.sosorio.hanoiapp.presentation.components.HanoiButton
-import com.sosorio.hanoiapp.presentation.components.HanoiButtonType
-import com.sosorio.hanoiapp.presentation.components.HanoiTextField
+import com.sosorio.hanoiapp.presentation.components.button.HanoiButton
+import com.sosorio.hanoiapp.presentation.components.button.HanoiButtonType
+import com.sosorio.hanoiapp.presentation.components.textField.HanoiTextField
 import com.sosorio.hanoiapp.ui.theme.HanoiAppTheme
 
 @Composable

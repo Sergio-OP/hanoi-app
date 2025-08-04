@@ -1,4 +1,4 @@
-package com.sosorio.hanoiapp.presentation.components
+package com.sosorio.hanoiapp.presentation.components.textField
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth

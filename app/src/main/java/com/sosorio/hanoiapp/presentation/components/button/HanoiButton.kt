@@ -1,4 +1,4 @@
-package com.sosorio.hanoiapp.presentation.components
+package com.sosorio.hanoiapp.presentation.components.button
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.fillMaxWidth

@@ -1,4 +1,4 @@
-package com.sosorio.hanoiapp.presentation.components
+package com.sosorio.hanoiapp.presentation.components.button
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
