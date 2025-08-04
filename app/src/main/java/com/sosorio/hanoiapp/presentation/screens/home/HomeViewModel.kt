@@ -3,11 +3,11 @@ package com.sosorio.hanoiapp.presentation.screens.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sosorio.hanoiapp.domain.entities.HanoiGame
+import com.sosorio.hanoiapp.domain.entities.Movement
 import com.sosorio.hanoiapp.domain.useCases.ObserveMovementsUseCase
 import com.sosorio.hanoiapp.presentation.components.sheet.AlgorithmConfiguration
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -20,65 +20,102 @@ class HomeViewModel(
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()
+
     private lateinit var game: HanoiGame
     private var observeJob: Job? = null
 
     init {
-        startGame()
+        createGame()
+        updateUiTowers()
     }
 
     fun handleIntent(intent: HomeIntent) {
         when (intent) {
-            HomeIntent.StartGame -> observeMovements(_uiState.value.configuration.numberOfDisks)
-            HomeIntent.RefreshGame -> startGame()
             is HomeIntent.ConfigureAlgorithm -> configureAlgorithm(intent.configuration)
+            HomeIntent.StartAlgorithm -> startAlgorithm()
+            HomeIntent.RestartAlgorithm -> restartAlgorithm()
+            HomeIntent.PauseAlgorithm -> pauseAlgorithm()
+            HomeIntent.ResumeAlgorithm -> resumeAlgorithm()
+            HomeIntent.NextStep -> TODO()
         }
     }
 
     private fun configureAlgorithm(configuration: AlgorithmConfiguration) {
-        if (configuration.numberOfDisks > 0 && configuration.movementTimeInMs > 0) {
-            _uiState.update { it.copy(configuration = configuration) }
-            startGame()
+        if (configuration.isValid) {
+            updateConfiguration(configuration)
+            restartAlgorithm()
         }
     }
 
-    private fun startGame() {
-        game = HanoiGame(numberOfDisks = _uiState.value.configuration.numberOfDisks)
+    private fun startAlgorithm() {
+        restartAlgorithm()
+        observeMovements()
+    }
+
+    private fun restartAlgorithm() {
         cancelObservation()
+        createGame()
         updateUiTowers()
+    }
+
+    private fun pauseAlgorithm() = _uiState.update { it.copy(isPaused = true) }
+
+    private fun resumeAlgorithm() = _uiState.update { it.copy(isPaused = false) }
+
+    private fun updateConfiguration(configuration: AlgorithmConfiguration) = _uiState.update { it.copy(configuration = configuration) }
+
+    private fun cancelObservation() {
+        observeJob?.cancel()
+        observeJob = null
+        setObservingStatus(false)
+        setLoadingStatus(false)
+    }
+
+    private fun updateUiTowers() =
+        _uiState.update { state ->
+            state.copy(towers = game.towers.map { ArrayDeque(it) })
+        }
+
+    private fun createGame() {
+        game = HanoiGame(numberOfDisks = _uiState.value.configuration.numberOfDisks)
+    }
+
+    private fun observeMovements() {
+        observeJob =
+            viewModelScope.launch(dispatchers) {
+                setLoadingStatus(true)
+                val numberOfDisks = _uiState.value.configuration.numberOfDisks
+
+                observeMovementsUseCase(numberOfDisks)
+                    .collect { movementResult ->
+                        setLoadingStatus(false)
+                        movementResult
+                            .onSuccess { movement ->
+                                setObservingStatus(true)
+                                updateCurrentMovement(movement)
+                                moveDisk(movement.start - 1, movement.end - 1)
+                                updateUiTowers()
+                                waitDelay()
+                            }.onFailure { error ->
+                                updateErrorMessage(error.message)
+                                cancelObservation()
+                            }
+                    }
+            }
     }
 
     private fun moveDisk(
         from: Int,
         to: Int,
-    ) {
-        game.moveDisk(from, to)
-        updateUiTowers()
-    }
+    ) = game.moveDisk(from, to)
 
-    private fun updateUiTowers() = _uiState.update { it.copy(towers = game.towers.map { ArrayDeque(it) }) }
+    private fun setLoadingStatus(isLoading: Boolean) = _uiState.update { it.copy(isLoading = isLoading) }
 
-    private fun observeMovements(numberOfDisks: Int) {
-        startGame()
+    private fun setObservingStatus(isObserving: Boolean) = _uiState.update { it.copy(isObserving = isObserving) }
 
-        observeJob =
-            viewModelScope.launch(dispatchers) {
-                observeMovementsUseCase(numberOfDisks).collect { movementResult ->
-                    movementResult
-                        .onSuccess { movement ->
-                            _uiState.update { it.copy(lastMovement = movement) }
-                            moveDisk(movement.start - 1, movement.end - 1)
-                            delay(_uiState.value.configuration.movementTimeInMs)
-                        }.onFailure { error ->
-                            _uiState.update { it.copy(error = error.message) }
-                            this.cancel()
-                        }
-                }
-            }
-    }
+    private fun updateCurrentMovement(movement: Movement) = _uiState.update { it.copy(currentMovement = movement) }
 
-    private fun cancelObservation() {
-        observeJob?.cancel()
-        observeJob = null
-    }
+    private fun updateErrorMessage(message: String?) = _uiState.update { it.copy(errorMessage = message) }
+
+    private suspend fun waitDelay() = delay(_uiState.value.configuration.movementTimeInMs)
 }

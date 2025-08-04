@@ -10,7 +10,10 @@ data class HomeUiState(
             numberOfDisks = 3,
             movementTimeInMs = 1_000L,
         ),
-    val lastMovement: Movement? = null,
-    val error: String? = null,
+    val currentMovement: Movement? = null,
+    val errorMessage: String? = null,
+    val isLoading: Boolean = false,
+    val isObserving: Boolean = false,
+    val isPaused: Boolean = false,
     val towers: HanoiTowers = emptyList(),
 )

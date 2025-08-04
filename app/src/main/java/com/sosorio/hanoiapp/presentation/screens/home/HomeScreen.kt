@@ -78,10 +78,10 @@ fun HomeScreen(
                     .weight(1F),
         )
         ControlButtons(
-            onPlayClick = { handleIntent(HomeIntent.StartGame) },
-            onRefreshClick = { handleIntent(HomeIntent.RefreshGame) },
+            onPlayClick = { handleIntent(HomeIntent.StartAlgorithm) },
+            onRefreshClick = { handleIntent(HomeIntent.RestartAlgorithm) },
             onNextClick = { TODO() },
-            onPauseClick = { handleIntent(HomeIntent.StartGame) },
+            onPauseClick = { handleIntent(HomeIntent.StartAlgorithm) },
             modifier =
                 Modifier
                     .padding(16.dp)
