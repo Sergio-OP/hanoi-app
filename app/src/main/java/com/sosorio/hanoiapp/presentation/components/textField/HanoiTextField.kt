@@ -3,8 +3,10 @@ package com.sosorio.hanoiapp.presentation.components.textField
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,6 +37,7 @@ fun HanoiTextField(
                 TextStyle(
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Normal,
+                    color = MaterialTheme.colorScheme.primary,
                 ),
         )
         TextField(
@@ -49,6 +52,13 @@ fun HanoiTextField(
             placeholder = { Text(text = label) },
             keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
             singleLine = true,
+            colors =
+                TextFieldDefaults.colors(
+                    focusedTextColor = MaterialTheme.colorScheme.primary,
+                    unfocusedTextColor = MaterialTheme.colorScheme.primary,
+                    focusedContainerColor = MaterialTheme.colorScheme.background,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.background,
+                ),
         )
     }
 }

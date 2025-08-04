@@ -42,7 +42,7 @@ fun HomeScreen(
             onDismissRequest = { showConfigurationSheet = false },
             modifier = Modifier.fillMaxSize(),
             shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
-            containerColor = MaterialTheme.colorScheme.background,
+            containerColor = MaterialTheme.colorScheme.tertiary,
         ) {
             ConfigurationSheet(
                 configuration = uiState.configuration,
