@@ -68,7 +68,8 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.koin.compose)
     implementation(libs.androidx.navigation.compose)
-
+    // Icons Extended
+    implementation(libs.androidx.material.icons.extended)
     // Tests
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

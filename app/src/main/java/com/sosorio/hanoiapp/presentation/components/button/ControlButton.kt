@@ -6,9 +6,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Pause
 import androidx.compose.material.icons.filled.PlayArrow
-import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.Restore
+import androidx.compose.material.icons.filled.SkipNext
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -81,7 +82,7 @@ enum class ControlButtonType(
     val contentDescriptionRes: Int,
 ) {
     PAUSE(
-        icon = Icons.Default.Person,
+        icon = Icons.Default.Pause,
         contentDescriptionRes = R.string.pause,
     ),
     PLAY(
@@ -89,11 +90,11 @@ enum class ControlButtonType(
         contentDescriptionRes = R.string.play,
     ),
     RESTART(
-        icon = Icons.Default.Refresh,
+        icon = Icons.Default.Restore,
         contentDescriptionRes = R.string.restart,
     ),
     NEXT(
-        icon = Icons.Default.Refresh,
+        icon = Icons.Default.SkipNext,
         contentDescriptionRes = R.string.next,
     ),
 }
