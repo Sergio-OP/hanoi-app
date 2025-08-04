@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sosorio.hanoiapp.domain.entities.HanoiGame
 import com.sosorio.hanoiapp.domain.useCases.ObserveMovementsUseCase
+import com.sosorio.hanoiapp.presentation.components.sheet.AlgorithmConfiguration
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
@@ -28,19 +29,16 @@ class HomeViewModel(
         when (intent) {
             HomeIntent.StartGame -> observeMovements(_uiState.value.numberOfDisks)
             HomeIntent.RefreshGame -> startGame()
-            is HomeIntent.ConfigureAlgorithm -> configureAlgorithm(intent.numberOfDisks, intent.moveAnimationTimeMs)
+            is HomeIntent.ConfigureAlgorithm -> configureAlgorithm(intent.configuration)
         }
     }
 
-    private fun configureAlgorithm(
-        numberOfDisks: Int,
-        moveAnimationTimeMs: Long,
-    ) {
-        if (numberOfDisks > 0) {
-            _uiState.update { it.copy(numberOfDisks = numberOfDisks) }
+    private fun configureAlgorithm(configuration: AlgorithmConfiguration) {
+        if (configuration.numberOfDisks > 0) {
+            _uiState.update { it.copy(numberOfDisks = configuration.numberOfDisks) }
         }
-        if (moveAnimationTimeMs > 0) {
-            _uiState.update { it.copy(moveAnimationTimeMs = moveAnimationTimeMs) }
+        if (configuration.movementTimeInMs > 0) {
+            _uiState.update { it.copy(moveAnimationTimeMs = configuration.movementTimeInMs) }
         }
     }
 
