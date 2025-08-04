@@ -6,6 +6,7 @@ import com.sosorio.hanoiapp.domain.entities.HanoiGame
 import com.sosorio.hanoiapp.domain.useCases.ObserveMovementsUseCase
 import com.sosorio.hanoiapp.presentation.components.sheet.AlgorithmConfiguration
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,9 +18,10 @@ class HomeViewModel(
     private val observeMovementsUseCase: ObserveMovementsUseCase,
     private val dispatchers: CoroutineDispatcher,
 ) : ViewModel() {
-    private lateinit var game: HanoiGame
     private val _uiState = MutableStateFlow(HomeUiState())
     val uiState = _uiState.asStateFlow()
+    private lateinit var game: HanoiGame
+    private var observeJob: Job? = null
 
     init {
         startGame()
@@ -41,6 +43,7 @@ class HomeViewModel(
 
     private fun startGame() {
         game = HanoiGame(numberOfDisks = _uiState.value.configuration.numberOfDisks)
+        cancelObservation()
         updateUiTowers()
     }
 
@@ -54,18 +57,27 @@ class HomeViewModel(
 
     private fun updateUiTowers() = _uiState.update { it.copy(towers = game.towers.map { ArrayDeque(it) }) }
 
-    private fun observeMovements(numberOfDisks: Int) =
-        viewModelScope.launch(dispatchers) {
-            observeMovementsUseCase(numberOfDisks).collect { movementResult ->
-                movementResult
-                    .onSuccess { movement ->
-                        _uiState.update { it.copy(lastMovement = movement) }
-                        moveDisk(movement.start - 1, movement.end - 1)
-                        delay(_uiState.value.configuration.movementTimeInMs)
-                    }.onFailure { error ->
-                        _uiState.update { it.copy(error = error.message) }
-                        this.cancel()
-                    }
+    private fun observeMovements(numberOfDisks: Int) {
+        observeJob?.cancel()
+
+        observeJob =
+            viewModelScope.launch(dispatchers) {
+                observeMovementsUseCase(numberOfDisks).collect { movementResult ->
+                    movementResult
+                        .onSuccess { movement ->
+                            _uiState.update { it.copy(lastMovement = movement) }
+                            moveDisk(movement.start - 1, movement.end - 1)
+                            delay(_uiState.value.configuration.movementTimeInMs)
+                        }.onFailure { error ->
+                            _uiState.update { it.copy(error = error.message) }
+                            this.cancel()
+                        }
+                }
             }
-        }
+    }
+
+    private fun cancelObservation() {
+        observeJob?.cancel()
+        observeJob = null
+    }
 }
