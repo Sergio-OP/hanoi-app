@@ -7,6 +7,7 @@
     <string name="next">Next</string>
     <string name="configure_algorithm">Configure algorithm</string>
     <string name="number_of_disks">Number of disks</string>
+    <string name="move_animation_time_ms">Move animation time (ms)</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
 </resources>
