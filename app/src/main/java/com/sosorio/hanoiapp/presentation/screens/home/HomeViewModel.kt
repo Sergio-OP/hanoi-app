@@ -38,6 +38,7 @@ class HomeViewModel(
     private fun configureAlgorithm(configuration: AlgorithmConfiguration) {
         if (configuration.numberOfDisks > 0 && configuration.movementTimeInMs > 0) {
             _uiState.update { it.copy(configuration = configuration) }
+            startGame()
         }
     }
 
