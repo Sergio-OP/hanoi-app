@@ -58,7 +58,7 @@ class HomeViewModel(
     private fun updateUiTowers() = _uiState.update { it.copy(towers = game.towers.map { ArrayDeque(it) }) }
 
     private fun observeMovements(numberOfDisks: Int) {
-        observeJob?.cancel()
+        startGame()
 
         observeJob =
             viewModelScope.launch(dispatchers) {
