@@ -10,4 +10,5 @@
     <string name="move_animation_time_ms">Move animation time (ms)</string>
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
+    <string name="step_movement_description">Take disk %1$d from rod %2$s to rod %3$s</string>
 </resources>
