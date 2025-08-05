@@ -24,6 +24,7 @@ import com.sosorio.hanoiapp.R
 import com.sosorio.hanoiapp.domain.entities.HanoiGame
 import com.sosorio.hanoiapp.presentation.components.appBar.HanoiAppBar
 import com.sosorio.hanoiapp.presentation.components.button.ControlButtons
+import com.sosorio.hanoiapp.presentation.components.label.MovementHistoryList
 import com.sosorio.hanoiapp.presentation.components.sheet.ConfigurationSheet
 import com.sosorio.hanoiapp.presentation.components.tower.HanoiTowers
 import com.sosorio.hanoiapp.ui.theme.HanoiAppTheme
@@ -75,7 +76,15 @@ fun HomeScreen(
                 Modifier
                     .padding(horizontal = 16.dp)
                     .fillMaxWidth()
-                    .weight(1F),
+                    .weight(0.8F),
+        )
+        MovementHistoryList(
+            movementHistory = uiState.movementHistory,
+            modifier =
+                Modifier
+                    .padding(start = 16.dp, end = 16.dp, top = 16.dp)
+                    .fillMaxWidth()
+                    .weight(0.2F),
         )
         ControlButtons(
             onPlayClick = { handleIntent(HomeIntent.StartAlgorithm) },
