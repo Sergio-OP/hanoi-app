@@ -13,6 +13,11 @@ sealed class HomeIntent {
 
     data object NextStep : HomeIntent()
 
+    data class MoveDisk(
+        val from: Int,
+        val to: Int,
+    ) : HomeIntent()
+
     data class ConfigureAlgorithm(
         val configuration: AlgorithmConfiguration,
     ) : HomeIntent()

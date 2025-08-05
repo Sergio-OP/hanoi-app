@@ -38,6 +38,7 @@ class HomeViewModel(
             HomeIntent.PauseAlgorithm -> pauseAlgorithm()
             HomeIntent.ResumeAlgorithm -> resumeAlgorithm()
             HomeIntent.NextStep -> TODO()
+            is HomeIntent.MoveDisk -> moveDisk(intent.from, intent.to)
         }
     }
 
@@ -95,7 +96,6 @@ class HomeViewModel(
                             .onSuccess { movement ->
                                 setObservingStatus(true)
                                 moveDisk(movement.start - 1, movement.end - 1)
-                                updateUiTowers()
                                 waitDelay()
                             }.onFailure { error ->
                                 updateErrorMessage(error.message)
@@ -111,6 +111,7 @@ class HomeViewModel(
     ) {
         registerMovementLog(from, to)
         game.moveDisk(from, to)
+        updateUiTowers()
     }
 
     private fun registerMovementLog(

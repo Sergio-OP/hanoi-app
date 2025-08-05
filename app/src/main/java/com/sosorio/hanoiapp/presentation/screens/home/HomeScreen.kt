@@ -72,6 +72,7 @@ fun HomeScreen(
         )
         HanoiTowers(
             board = uiState.towers,
+            moveDisk = { from, to -> handleIntent(HomeIntent.MoveDisk(from, to)) },
             modifier =
                 Modifier
                     .padding(horizontal = 16.dp)
