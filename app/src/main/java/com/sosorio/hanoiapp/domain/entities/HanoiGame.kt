@@ -28,9 +28,15 @@ class HanoiGame(
     fun moveDisk(
         from: Int,
         to: Int,
-    ) {
-        val disk = _towers[from].removeFirstOrNull() ?: return
+    ): Result<Unit> {
+        val disk = _towers[from].firstOrNull() ?: return Result.failure(IllegalArgumentException("No disk to move"))
+        val topDisk = _towers[to].firstOrNull()
+
+        if (topDisk != null && topDisk.index <= disk.index) return Result.failure(IllegalArgumentException("No valid movement"))
+
+        _towers[from].removeFirst()
         _towers[to].addFirst(disk)
+        return Result.success(Unit)
     }
 
     companion object {

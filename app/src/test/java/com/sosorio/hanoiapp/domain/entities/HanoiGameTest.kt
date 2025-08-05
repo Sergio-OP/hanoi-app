@@ -44,6 +44,18 @@ class HanoiGameTest {
         assertEquals(0, game.towers[2].size)
     }
 
+    @Test
+    fun towerWithSmallerDisk_moveLargerDisk_nothingHappens() {
+        game.moveDisk(0, 1)
+        game.moveDisk(0, 2)
+
+        game.moveDisk(0, 1)
+
+        assertEquals(3, game.towers[0].size)
+        assertEquals(1, game.towers[1].size)
+        assertEquals(1, game.towers[2].size)
+    }
+
     companion object {
         private const val NUMBER_OF_DISKS = 5
         private const val NUMBER_OF_RODS = 3
