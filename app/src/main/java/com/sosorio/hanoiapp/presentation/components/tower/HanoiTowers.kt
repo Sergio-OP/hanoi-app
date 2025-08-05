@@ -32,43 +32,52 @@ fun HanoiTowers(
     val localDensity = LocalDensity.current
     var totalHeight by remember { mutableStateOf(0.dp) }
     var totalWidth by remember { mutableStateOf(0.dp) }
-    val minDiskHeight = totalHeight.div(numberOfTotalDisks)
-    val maxDiskHeight = 20.dp
-    val diskHeight = minOf(minDiskHeight, maxDiskHeight)
-    val towerWidth = totalWidth.div(numberOfRods)
+
+    val diskHeight =
+        remember(totalHeight, numberOfTotalDisks) {
+            val minDiskHeight = totalHeight / numberOfTotalDisks
+            val maxDiskHeight = 20.dp
+            minOf(minDiskHeight, maxDiskHeight)
+        }
+
+    val towerWidth =
+        remember(totalWidth, numberOfRods) {
+            totalWidth / numberOfRods
+        }
 
     Box(
         modifier =
-            modifier
-                .onGloballyPositioned { coordinates ->
-                    totalHeight = with(localDensity) { coordinates.size.height.toDp() }
-                    totalWidth = with(localDensity) { coordinates.size.width.toDp() }
-                },
+            modifier.onGloballyPositioned { coordinates ->
+                totalHeight = with(localDensity) { coordinates.size.height.toDp() }
+                totalWidth = with(localDensity) { coordinates.size.width.toDp() }
+            },
         contentAlignment = Alignment.BottomStart,
     ) {
         board.forEachIndexed { rodIndex, rod ->
-            rod.forEachIndexed { diskIndex, disk ->
-                val diskWidthFraction = disk.index.toFloat() / numberOfTotalDisks
-                val diskWidth = towerWidth * diskWidthFraction
-
-                val xOffset = (towerWidth * (rodIndex)) + ((towerWidth - diskWidth) / 2)
-                val yOffset = -diskHeight * (rod.size - diskIndex)
-
-                val offset by animateIntOffsetAsState(
-                    IntOffset(
-                        x = with(localDensity) { xOffset.toPx() }.toInt(),
-                        y = with(localDensity) { yOffset.toPx() }.toInt(),
-                    ),
-                )
-
+            rod.forEachIndexed { heightIndex, disk ->
                 key(disk.index) {
+                    val diskWidthFraction = (disk.index).toFloat() / numberOfTotalDisks
+                    val diskWidth = towerWidth * diskWidthFraction
+
+                    val targetX = (towerWidth * rodIndex) + ((towerWidth - diskWidth) / 2)
+                    val targetY = -diskHeight * (rod.size - heightIndex)
+
+                    val animatedOffset by animateIntOffsetAsState(
+                        targetValue =
+                            IntOffset(
+                                x = with(localDensity) { targetX.toPx() }.toInt(),
+                                y = with(localDensity) { targetY.toPx() }.toInt(),
+                            ),
+                        label = "diskOffset",
+                    )
+
                     HanoiDisk(
                         disk = disk,
                         modifier =
                             Modifier
                                 .width(diskWidth)
                                 .height(diskHeight)
-                                .offset { offset },
+                                .offset { animatedOffset },
                     )
                 }
             }
