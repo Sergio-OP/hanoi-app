@@ -109,6 +109,7 @@ class HomeViewModel(
         from: Int,
         to: Int,
     ) {
+        if (from == to) return
         registerMovementLog(from, to)
         game.moveDisk(from, to)
         updateUiTowers()
@@ -118,7 +119,7 @@ class HomeViewModel(
         from: Int,
         to: Int,
     ) {
-        val diskId = game.towers[from].first().index
+        val diskId = game.towers[from].firstOrNull()?.index ?: return
         val movementLog =
             MovementLog(
                 diskIndex = diskId,
