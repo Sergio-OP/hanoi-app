@@ -3,9 +3,10 @@ package com.sosorio.hanoiapp.presentation.screens.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sosorio.hanoiapp.domain.entities.HanoiGame
-import com.sosorio.hanoiapp.domain.entities.Movement
 import com.sosorio.hanoiapp.domain.useCases.ObserveMovementsUseCase
+import com.sosorio.hanoiapp.presentation.components.label.MovementLog
 import com.sosorio.hanoiapp.presentation.components.sheet.AlgorithmConfiguration
+import com.sosorio.hanoiapp.utils.toRodLabel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -56,6 +57,7 @@ class HomeViewModel(
         cancelObservation()
         createGame()
         updateUiTowers()
+        clearMovementHistory()
     }
 
     private fun pauseAlgorithm() = _uiState.update { it.copy(isPaused = true) }
@@ -92,7 +94,6 @@ class HomeViewModel(
                         movementResult
                             .onSuccess { movement ->
                                 setObservingStatus(true)
-                                updateCurrentMovement(movement)
                                 moveDisk(movement.start - 1, movement.end - 1)
                                 updateUiTowers()
                                 waitDelay()
@@ -107,15 +108,32 @@ class HomeViewModel(
     private fun moveDisk(
         from: Int,
         to: Int,
-    ) = game.moveDisk(from, to)
+    ) {
+        registerMovementLog(from, to)
+        game.moveDisk(from, to)
+    }
+
+    private fun registerMovementLog(
+        from: Int,
+        to: Int,
+    ) {
+        val diskId = game.towers[from].first().index
+        val movementLog =
+            MovementLog(
+                diskIndex = diskId,
+                fromRod = from.toRodLabel(),
+                toRod = to.toRodLabel(),
+            )
+        _uiState.update { it.copy(movementHistory = it.movementHistory + movementLog) }
+    }
 
     private fun setLoadingStatus(isLoading: Boolean) = _uiState.update { it.copy(isLoading = isLoading) }
 
     private fun setObservingStatus(isObserving: Boolean) = _uiState.update { it.copy(isObserving = isObserving) }
 
-    private fun updateCurrentMovement(movement: Movement) = _uiState.update { it.copy(currentMovement = movement) }
-
     private fun updateErrorMessage(message: String?) = _uiState.update { it.copy(errorMessage = message) }
+
+    private fun clearMovementHistory() = _uiState.update { it.copy(movementHistory = emptyList()) }
 
     private suspend fun waitDelay() = delay(_uiState.value.configuration.movementTimeInMs)
 }
