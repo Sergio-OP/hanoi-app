@@ -47,6 +47,7 @@ class HomeViewModel(
     }
 
     private fun startAlgorithm() {
+        clearErrorMessage()
         restartAlgorithm()
         observeMovements()
     }
@@ -56,7 +57,10 @@ class HomeViewModel(
         createGame()
         updateUiTowers()
         clearMovementHistory()
+        clearErrorMessage()
     }
+
+    private fun clearErrorMessage() = _uiState.update { it.copy(errorMessage = null) }
 
     private fun updateConfiguration(configuration: AlgorithmConfiguration) = _uiState.update { it.copy(configuration = configuration) }
 

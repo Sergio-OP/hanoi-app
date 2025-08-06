@@ -11,4 +11,5 @@
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
     <string name="step_movement_description">Take disk %1$d from rod %2$s to rod %3$s</string>
+    <string name="something_went_wrong">Something went wrong</string>
 </resources>

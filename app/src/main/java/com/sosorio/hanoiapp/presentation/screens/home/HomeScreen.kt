@@ -24,6 +24,7 @@ import com.sosorio.hanoiapp.R
 import com.sosorio.hanoiapp.domain.entities.HanoiGame
 import com.sosorio.hanoiapp.presentation.components.appBar.HanoiAppBar
 import com.sosorio.hanoiapp.presentation.components.button.ControlButtons
+import com.sosorio.hanoiapp.presentation.components.label.ErrorMessageLabel
 import com.sosorio.hanoiapp.presentation.components.label.MovementHistoryList
 import com.sosorio.hanoiapp.presentation.components.sheet.ConfigurationSheet
 import com.sosorio.hanoiapp.presentation.components.tower.HanoiTowers
@@ -68,6 +69,10 @@ fun HomeScreen(
         HanoiAppBar(
             title = stringResource(R.string.app_name),
             onConfigurationClick = { showConfigurationSheet = true },
+            modifier = Modifier.fillMaxWidth(),
+        )
+        ErrorMessageLabel(
+            message = uiState.errorMessage?.let { stringResource(R.string.something_went_wrong) },
             modifier = Modifier.fillMaxWidth(),
         )
         HanoiTowers(
