@@ -7,12 +7,6 @@ sealed class HomeIntent {
 
     data object RestartAlgorithm : HomeIntent()
 
-    data object PauseAlgorithm : HomeIntent()
-
-    data object ResumeAlgorithm : HomeIntent()
-
-    data object NextStep : HomeIntent()
-
     data class MoveDisk(
         val from: Int,
         val to: Int,

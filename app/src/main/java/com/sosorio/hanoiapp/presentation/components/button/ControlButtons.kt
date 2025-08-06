@@ -18,8 +18,6 @@ import com.sosorio.hanoiapp.ui.theme.HanoiAppTheme
 fun ControlButtons(
     onPlayClick: () -> Unit,
     onRefreshClick: () -> Unit,
-    onNextClick: () -> Unit,
-    onPauseClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var centralButtonType by remember { mutableStateOf(ControlButtonType.PLAY) }
@@ -35,20 +33,7 @@ fun ControlButtons(
         )
         ControlButton(
             type = centralButtonType,
-            onClick = {
-                if (centralButtonType == ControlButtonType.PLAY) {
-                    onPlayClick()
-                    centralButtonType = ControlButtonType.PAUSE
-                } else {
-                    onPauseClick()
-                    centralButtonType = ControlButtonType.PLAY
-                }
-            },
-            modifier = Modifier.weight(1F),
-        )
-        ControlButton(
-            type = ControlButtonType.NEXT,
-            onClick = onNextClick,
+            onClick = onPlayClick,
             modifier = Modifier.weight(1F),
         )
     }
@@ -62,8 +47,6 @@ private fun ControlButtonsPreview() {
             modifier = Modifier.fillMaxWidth(),
             onPlayClick = { },
             onRefreshClick = { },
-            onNextClick = { },
-            onPauseClick = {},
         )
     }
 }

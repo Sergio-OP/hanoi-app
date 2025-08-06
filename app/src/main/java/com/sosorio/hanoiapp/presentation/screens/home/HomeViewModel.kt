@@ -35,9 +35,6 @@ class HomeViewModel(
             is HomeIntent.ConfigureAlgorithm -> configureAlgorithm(intent.configuration)
             HomeIntent.StartAlgorithm -> startAlgorithm()
             HomeIntent.RestartAlgorithm -> restartAlgorithm()
-            HomeIntent.PauseAlgorithm -> pauseAlgorithm()
-            HomeIntent.ResumeAlgorithm -> resumeAlgorithm()
-            HomeIntent.NextStep -> TODO()
             is HomeIntent.MoveDisk -> moveDisk(intent.from, intent.to)
         }
     }
@@ -60,10 +57,6 @@ class HomeViewModel(
         updateUiTowers()
         clearMovementHistory()
     }
-
-    private fun pauseAlgorithm() = _uiState.update { it.copy(isPaused = true) }
-
-    private fun resumeAlgorithm() = _uiState.update { it.copy(isPaused = false) }
 
     private fun updateConfiguration(configuration: AlgorithmConfiguration) = _uiState.update { it.copy(configuration = configuration) }
 

@@ -13,7 +13,6 @@ data class HomeUiState(
     val errorMessage: String? = null,
     val isLoading: Boolean = false,
     val isObserving: Boolean = false,
-    val isPaused: Boolean = false,
     val towers: HanoiTowers = emptyList(),
     val movementHistory: List<MovementLog> = emptyList(),
 )

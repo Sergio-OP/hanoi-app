@@ -90,8 +90,6 @@ fun HomeScreen(
         ControlButtons(
             onPlayClick = { handleIntent(HomeIntent.StartAlgorithm) },
             onRefreshClick = { handleIntent(HomeIntent.RestartAlgorithm) },
-            onNextClick = { TODO() },
-            onPauseClick = { handleIntent(HomeIntent.StartAlgorithm) },
             modifier =
                 Modifier
                     .padding(16.dp)
