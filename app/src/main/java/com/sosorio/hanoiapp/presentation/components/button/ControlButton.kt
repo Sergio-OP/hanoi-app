@@ -11,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Restore
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -30,6 +31,7 @@ fun ControlButton(
     type: ControlButtonType,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    isLoading: Boolean = false,
 ) {
     val backgroundColor =
         when (type) {
@@ -60,15 +62,25 @@ fun ControlButton(
                 .clickable(onClick = onClick),
         contentAlignment = Alignment.Center,
     ) {
-        Icon(
-            imageVector = type.icon,
-            contentDescription = stringResource(type.contentDescriptionRes),
-            tint = contentColor,
-            modifier =
-                Modifier
-                    .padding(12.dp)
-                    .size(24.dp),
-        )
+        if (isLoading) {
+            CircularProgressIndicator(
+                color = contentColor,
+                modifier =
+                    Modifier
+                        .padding(12.dp)
+                        .size(24.dp),
+            )
+        } else {
+            Icon(
+                imageVector = type.icon,
+                contentDescription = stringResource(type.contentDescriptionRes),
+                tint = contentColor,
+                modifier =
+                    Modifier
+                        .padding(12.dp)
+                        .size(24.dp),
+            )
+        }
     }
 }
 

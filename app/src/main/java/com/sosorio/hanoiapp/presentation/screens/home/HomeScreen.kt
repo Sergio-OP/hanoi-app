@@ -90,6 +90,7 @@ fun HomeScreen(
         ControlButtons(
             onPlayClick = { handleIntent(HomeIntent.StartAlgorithm) },
             onRefreshClick = { handleIntent(HomeIntent.RestartAlgorithm) },
+            isLoading = uiState.isLoading,
             modifier =
                 Modifier
                     .padding(16.dp)
