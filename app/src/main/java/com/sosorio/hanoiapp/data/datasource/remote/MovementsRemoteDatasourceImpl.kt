@@ -41,7 +41,7 @@ class MovementsRemoteDatasourceImpl(
         }
 
     companion object {
-        private const val HOST = "hanoi-service.onrender.com"
+        private const val HOST = "hanoi-web-service.onrender.com"
         private const val ENDPOINT = "/api/hanoi"
     }
 }
